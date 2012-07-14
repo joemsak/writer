@@ -17,9 +17,9 @@ describe Writer do
     File.delete('My custom filename.txt')
   end
 
-  it "creates today's file" do
+  it "creates today's file, blank" do
     Writer.write!
-    file.should_not be_nil
+    file.read.should == "\n"
   end
 
   it "creates the file with your custom name" do
