@@ -3,6 +3,7 @@
 require 'yaml'
 require 'writer'
 filename = ARGV[0]
+content = ARGV[1]
 
 if (load_config = File.open('config/writer.yml') rescue nil)
   config = YAML.load(load_config)
@@ -12,8 +13,4 @@ if (load_config = File.open('config/writer.yml') rescue nil)
   end
 end
 
-if filename
-  Writer.write!(filename)
-else
-  Writer.write!
-end
+Writer.write!(filename, content)

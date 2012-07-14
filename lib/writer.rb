@@ -4,8 +4,10 @@ require "writer/version"
 
 module Writer
   class << self
-    def write!(filename = todays_date_md)
-      create_file(filename)
+    def write!(name = default_filename, content = nil)
+      protect_from_overwrite(name)
+      create_file(content)
+      File.open(filename, 'r')
     end
 
     def configure
@@ -14,13 +16,33 @@ module Writer
     end
 
     private
-    def create_file(name)
-      File.open(name, 'w') do |f|
-        f.puts template
+    def protect_from_overwrite(name)
+      count = 1
+      while File.exists?(name)
+        name = append_count(name, count += 1)
+      end
+      @filename = name
+    end
+
+    def create_file(content = nil)
+      File.open(filename, 'w') do |f|
+        f.puts content || template
       end
     end
 
-    def todays_date_md
+    def append_count(name, count)
+      if (split = name.split('.')).length > 1
+        ext = split.last
+        split.delete(ext)
+        name = split.join
+      end
+
+      name = name.gsub(/--\d$/,'')
+
+      [name + "--#{count}", '.', ext].join
+    end
+
+    def default_filename
       date = Date.today
       date.strftime('%Y-%m%b-%d.md')
     end
@@ -33,6 +55,10 @@ module Writer
 
     def config
       @config ||= Configuration.new
+    end
+
+    def filename
+      @filename
     end
   end
 end
