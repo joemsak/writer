@@ -37,6 +37,9 @@ $ wr hello world
 
 ## Use a template
 
+The Writer will copy a template file's contents into your new file
+if you configure the template file's path.
+
 Add `config/writer.yml` to the root directory of your project or journal
 
 Create a file named whatever you want, the example uses `.template`
