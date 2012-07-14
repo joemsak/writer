@@ -16,6 +16,11 @@ describe Writer do
     file.read.should == "\n"
   end
 
+  it "plays well with nils" do
+    file = Writer.write!(nil, nil)
+    file.read.should == "\n"
+  end
+
   it "prevents overwriting" do
     Writer.write!
     Writer.write!
@@ -48,6 +53,7 @@ def cleanup_files
   File.delete('2012-01Jan-03--2.md')
   File.delete('2012-01Jan-03--3.md')
   File.delete('2012-01Jan-03--4.md')
+  File.delete('2012-01Jan-03--5.md')
   File.delete('.template')
   File.delete('My custom filename.txt')
 end

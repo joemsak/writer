@@ -4,7 +4,8 @@ require "writer/version"
 
 module Writer
   class << self
-    def write!(name = default_filename, content = nil)
+    def write!(name = nil, content = nil)
+      name = default_filename if name.nil?
       protect_from_overwrite(name)
       create_file(content)
       File.open(filename, 'r')
