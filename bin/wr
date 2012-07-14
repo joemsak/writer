@@ -1,4 +1,19 @@
 #!/usr/bin/env ruby
 
+require 'yaml'
 require 'writer'
-puts Writer.write!(ARGV[0])
+filename = ARGV[0]
+
+if (load_config = File.open('config/writer.yml'))
+  config = YAML.load(load_config)
+end
+
+Writer.configure do |c|
+  c.template_path = config['template_path']
+end
+
+if filename
+  Writer.write!(filename)
+else
+  Writer.write!
+end

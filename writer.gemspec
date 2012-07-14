@@ -15,8 +15,5 @@ Gem::Specification.new do |gem|
   gem.require_paths       = ["lib"]
   gem.version             = Writer::VERSION
 
-  gem.bindir              = 'bin'
-  gem.default_executable  = 'bin/wr'
-
   gem.add_development_dependency 'rspec'
 end
