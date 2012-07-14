@@ -1,10 +1,15 @@
 # Writer
 
-TODO: Write a gem description
+This gem adds a command line utility that writes a new file for you.
+
+## Doesn't touch do that?
+
+Yes, but with this gem you can simply type `wr` and it defaults to
+a markdown file named after today's date.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Create a bundler Gemfile and add this:
 
     gem 'writer'
 
@@ -18,9 +23,32 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+$ wr
+#=> Creates a MarkDown file named after today's date
+## e.g. `2012-01Jan-03.md`
+
+$ wr hello
+#=> Creates a file named `hello`
+
+$ wr hello world
+#=> Creates a file named `hello` with the content `world`
+```
+
+## Use a template
+
+Add `config/writer.yml` to the root directory of your project or journal
+
+Create a file named whatever you want, the example uses `.template`
+in the project root
+
+```yml
+template_path: .template
+```
 
 ## Contributing
+
+Please provide a spec covering your feature or bug fix, thank you!
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
