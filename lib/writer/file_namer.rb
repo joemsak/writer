@@ -4,7 +4,7 @@ module Writer
       def name_for(filename)
         name = fix_standard(filename)
         name ||= fix_no_ext(filename)
-        name ||= fix_name(filename)
+        name ||= prevent_overwrite(filename)
         name
       end
 
@@ -14,7 +14,7 @@ module Writer
           basename = parts[0..-2].join('.')
           extension = parts.last
 
-          fix_name(name, basename, extension)
+          prevent_overwrite(name, basename, extension)
         end
       end
 
@@ -22,11 +22,11 @@ module Writer
         if /\.$/ =~ name
           basename = name.gsub('.', '')
 
-          fix_name(name, basename)
+          prevent_overwrite(name, basename)
         end
       end
 
-      def fix_name(name, base = nil, ext = nil)
+      def prevent_overwrite(name, base = nil, ext = nil)
         to_fix = base || name
         count = 1
 
