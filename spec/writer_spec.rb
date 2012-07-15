@@ -21,6 +21,14 @@ describe Writer do
     file.read.should == "\n"
   end
 
+  it "prevents overwriting" do
+    50.times do
+      Writer.write!
+    end
+
+    File.open('2012-01Jan-03--52.md')
+  end
+
   it "plays well with no dots" do
     file = Writer.write!('nodots')
     File.basename(file).should == 'nodots'
@@ -51,14 +59,6 @@ describe Writer do
     File.basename(file).should == 'some.jquery--2.file'
   end
 
-  it "prevents overwriting" do
-    Writer.write!
-    Writer.write!
-
-    File.open('2012-01Jan-03--2.md')
-    File.open('2012-01Jan-03--3.md')
-  end
-
   it "creates the file with your custom name" do
     filename = "My custom filename.txt"
     Writer.write!(filename)
@@ -80,10 +80,9 @@ end
 
 def cleanup_files
   File.delete('2012-01Jan-03.md')
-  File.delete('2012-01Jan-03--2.md')
-  File.delete('2012-01Jan-03--3.md')
-  File.delete('2012-01Jan-03--4.md')
-  File.delete('2012-01Jan-03--5.md')
+  52.times do |n|
+    File.delete("2012-01Jan-03--#{n + 2}.md")
+  end
   File.delete('nodots')
   File.delete('nodots--2')
   File.delete('dot.')
