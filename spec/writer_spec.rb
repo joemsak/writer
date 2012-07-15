@@ -29,6 +29,12 @@ describe Writer do
     File.open('2012-01Jan-03--3.md')
   end
 
+  it "preserves periods" do
+    Writer.write!('some.jquery.file')
+    file = Writer.write!('some.jquery.file')
+    File.basename(file).should == 'some.jquery--2.file'
+  end
+
   it "creates the file with your custom name" do
     filename = "My custom filename.txt"
     Writer.write!(filename)
@@ -54,6 +60,8 @@ def cleanup_files
   File.delete('2012-01Jan-03--3.md')
   File.delete('2012-01Jan-03--4.md')
   File.delete('2012-01Jan-03--5.md')
+  File.delete('some.jquery.file')
+  File.delete('some.jquery--2.file')
   File.delete('.template')
   File.delete('My custom filename.txt')
 end

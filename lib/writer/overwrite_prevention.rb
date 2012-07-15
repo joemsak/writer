@@ -14,7 +14,7 @@ module Writer
       if (split = name.split('.')).length > 1
         ext = split.last
         split.delete(ext)
-        name = split.join
+        name = split.join('.')
       end
 
       name = name.gsub(/--\d$/,'')
