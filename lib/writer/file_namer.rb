@@ -27,11 +27,12 @@ module Writer
       end
 
       def prevent_overwrite(name, base = nil, ext = nil)
+        separator = separator_for(name, base)
         to_fix = base || name
         count = 1
 
         while File.exists?(name)
-          name = append_count(to_fix, count += 1)
+          name = append_count(to_fix, separator, count += 1)
           name << ".#{ext}" if base
         end
 
@@ -39,9 +40,19 @@ module Writer
       end
 
       private
-      def append_count(name, count)
-        name = name.gsub(/--\d*$/, '')
-        [name, "--", count].join
+      def append_count(name, separator, count)
+        basename = name.gsub(/(--|\.)\d*$/, '')
+        zero_pad = count < 10 ? 0 : nil
+
+        [basename, separator, zero_pad, count].join
+      end
+
+      def separator_for(name, base = nil)
+        if base || name.include?('.')
+          "."
+        else
+          "--"
+        end
       end
     end
   end

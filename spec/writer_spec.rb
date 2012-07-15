@@ -26,7 +26,8 @@ describe Writer do
       Writer.write!
     end
 
-    File.open('2012-01Jan-03--52.md')
+    File.open('2012-01Jan-03.02.md')
+    File.open('2012-01Jan-03.52.md')
   end
 
   it "plays well with no dots" do
@@ -34,7 +35,7 @@ describe Writer do
     File.basename(file).should == 'nodots'
 
     file = Writer.write!('nodots')
-    File.basename(file).should == 'nodots--2'
+    File.basename(file).should == 'nodots--02'
   end
 
   it "plays well with a dot at the end" do
@@ -42,7 +43,7 @@ describe Writer do
     File.basename(file).should == 'dot.'
 
     file = Writer.write!('dot.')
-    File.basename(file).should == 'dot--2.'
+    File.basename(file).should == 'dot.02.'
   end
 
   it "plays well with a dot at the beginning" do
@@ -50,13 +51,13 @@ describe Writer do
     File.basename(file).should == '.dot'
 
     file = Writer.write!('.dot')
-    File.basename(file).should == '.dot--2'
+    File.basename(file).should == '.dot.02'
   end
 
   it "plays well with multiple dots" do
     Writer.write!('some.jquery.file')
     file = Writer.write!('some.jquery.file')
-    File.basename(file).should == 'some.jquery--2.file'
+    File.basename(file).should == 'some.jquery.02.file'
   end
 
   it "creates the file with your custom name" do
@@ -81,16 +82,16 @@ end
 def cleanup_files
   File.delete('2012-01Jan-03.md')
   52.times do |n|
-    File.delete("2012-01Jan-03--#{n + 2}.md")
+    File.delete("2012-01Jan-03.#{'0' if n < 8}#{n + 2}.md")
   end
   File.delete('nodots')
-  File.delete('nodots--2')
   File.delete('dot.')
-  File.delete('dot--2.')
+  File.delete('dot.02.')
   File.delete('some.jquery.file')
-  File.delete('some.jquery--2.file')
+  File.delete('some.jquery.02.file')
   File.delete('.template')
   File.delete('My custom filename.txt')
   File.delete('.dot')
-  File.delete('.dot--2')
+  File.delete('.dot.02')
+  File.delete('nodots--2')
 end
