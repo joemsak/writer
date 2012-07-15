@@ -3,18 +3,16 @@ require "writer/overwrite_prevention"
 module Writer
   class FileCreator
     class << self
-      attr_accessor :name, :content
+      def create!(filename, content)
+        name = OverwritePrevention.adjust(filename)
+        content = content
 
-      def create!(name, content)
-        @name = OverwritePrevention.adjust(name)
-        @content = content
-
-        create_file
-        return file
+        create_file(name, content)
+        File.open(name, 'r')
       end
 
       private
-      def create_file
+      def create_file(name, content)
         File.open(name, 'w') do |f|
           f.puts content || template
         end
@@ -24,10 +22,6 @@ module Writer
         if Writer.template_path
           File.open(Writer.template_path).read
         end
-      end
-
-      def file
-        File.open(name, 'r')
       end
     end
   end
