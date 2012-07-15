@@ -1,69 +1,23 @@
 require 'writer'
 
 describe Writer do
-  before :each do
-    Date.stub(:today) do
-      Date.new(2012, 1, 3)
-    end
-  end
-
-  after :all do
-    cleanup_files
-  end
-
   it "creates today's file, blank" do
-    file = Writer.write!
+    file = Writer.write!('hi')
     file.read.should == "\n"
+    File.delete('hi')
   end
 
   it "plays well with nils" do
     file = Writer.write!(nil, nil)
     file.read.should == "\n"
-  end
-
-  it "prevents overwriting" do
-    50.times do
-      Writer.write!
-    end
-
-    File.open('2012-01Jan-03.02.md')
-    File.open('2012-01Jan-03.52.md')
-  end
-
-  it "plays well with no dots" do
-    file = Writer.write!('nodots')
-    File.basename(file).should == 'nodots'
-
-    file = Writer.write!('nodots')
-    File.basename(file).should == 'nodots--02'
-  end
-
-  it "plays well with a dot at the end" do
-    file = Writer.write!('dot.')
-    File.basename(file).should == 'dot.'
-
-    file = Writer.write!('dot.')
-    File.basename(file).should == 'dot.02.'
-  end
-
-  it "plays well with a dot at the beginning" do
-    file = Writer.write!('.dot')
-    File.basename(file).should == '.dot'
-
-    file = Writer.write!('.dot')
-    File.basename(file).should == '.dot.02'
-  end
-
-  it "plays well with multiple dots" do
-    Writer.write!('some.jquery.file')
-    file = Writer.write!('some.jquery.file')
-    File.basename(file).should == 'some.jquery.02.file'
+    delete_files
   end
 
   it "creates the file with your custom name" do
     filename = "My custom filename.txt"
+
     Writer.write!(filename)
-    File.open(filename)
+    File.delete(filename)
   end
 
   it "uses a template, if it exists" do
@@ -76,22 +30,13 @@ describe Writer do
 
     file = Writer.write!
     file.read.should == body + "\n"
+    File.delete('.template')
+    delete_files
   end
 end
 
-def cleanup_files
-  File.delete('2012-01Jan-03.md')
-  52.times do |n|
-    File.delete("2012-01Jan-03.#{'0' if n < 8}#{n + 2}.md")
+def delete_files
+  Dir.glob("20*.md") do |filename|
+    File.delete(filename)
   end
-  File.delete('nodots')
-  File.delete('dot.')
-  File.delete('dot.02.')
-  File.delete('some.jquery.file')
-  File.delete('some.jquery.02.file')
-  File.delete('.template')
-  File.delete('My custom filename.txt')
-  File.delete('.dot')
-  File.delete('.dot.02')
-  File.delete('nodots--2')
 end

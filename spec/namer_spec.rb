@@ -1,0 +1,40 @@
+require "writer/file_namer"
+
+module Writer
+  describe FileNamer do
+    before :each do
+      File.stub(:exists?)
+          .with(/^\D+[^(--)\d]$/)
+          .and_return(true)
+
+      File.stub(:exists?)
+          .with(/^\S*\d+.*$/)
+          .and_return(false)
+    end
+
+    it "prevents overwriting" do
+      name = FileNamer.name_for('hi')
+      name.should == 'hi--02'
+    end
+
+    it "plays well with standard filenames" do
+      name = FileNamer.name_for('std.rb')
+      name.should == 'std.02.rb'
+    end
+
+    it "plays well with a dot at the end" do
+      name = FileNamer.name_for('dot.')
+      name.should == 'dot.02.'
+    end
+
+    it "plays well with a dot at the beginning" do
+      name = FileNamer.name_for('.dot')
+      name.should == '.dot.02'
+    end
+
+    it "plays well with multiple dots" do
+      name = FileNamer.name_for('some.jquery.file')
+      name.should == 'some.jquery.02.file'
+    end
+  end
+end
