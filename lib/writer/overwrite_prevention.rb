@@ -1,6 +1,6 @@
 module Writer
   class OverwritePrevention
-    def self.adjust_name(name)
+    def self.adjust(name)
       count = 1
 
       while File.exists?(name)
