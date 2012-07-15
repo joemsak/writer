@@ -1,16 +1,18 @@
 require 'writer'
 
 describe Writer do
+  after :all do
+    delete_files
+  end
+
   it "creates today's file, blank" do
-    file = Writer.write!('hi')
+    file = Writer.write!
     file.read.should == "\n"
-    File.delete('hi')
   end
 
   it "plays well with nils" do
     file = Writer.write!(nil, nil)
     file.read.should == "\n"
-    delete_files
   end
 
   it "creates the file with your custom name" do
@@ -31,7 +33,6 @@ describe Writer do
     file = Writer.write!
     file.read.should == body + "\n"
     File.delete('.template')
-    delete_files
   end
 end
 

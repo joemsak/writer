@@ -4,12 +4,20 @@ module Writer
   describe FileNamer do
     before :each do
       File.stub(:exists?)
-          .with(/^\D+[^(--)\d]$/)
+          .with(/^\D+[^(\-\-)\d]$/)
           .and_return(true)
 
       File.stub(:exists?)
           .with(/^\S*\d+.*$/)
           .and_return(false)
+    end
+
+    it "defaults to today's date" do
+      Date.stub(:today) do
+        Date.new(2012, 1, 3)
+      end
+      name = FileNamer.name_for(nil)
+      name.should == "2012-01Jan-03.md"
     end
 
     it "prevents overwriting" do

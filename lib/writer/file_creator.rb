@@ -4,10 +4,8 @@ module Writer
   class FileCreator
     class << self
       def create!(filename, content)
-        name = FileNamer.name_for(filename)
-
-        create_file(name, content)
-        File.open(name, 'r')
+        create_file(filename, content)
+        File.open(filename, 'r')
       end
 
       private

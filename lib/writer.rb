@@ -1,4 +1,3 @@
-require "date"
 require "writer/configuration"
 require "writer/version"
 require "writer/file_creator"
@@ -6,8 +5,8 @@ require "writer/file_creator"
 module Writer
   class << self
     def write!(name = nil, content = nil)
-      name ||= default_filename
-      FileCreator.create!(name, content)
+      name = namer.name_for(name)
+      creator.create!(name, content)
     end
 
     def configure
@@ -22,11 +21,6 @@ module Writer
     end
 
     private
-    def default_filename
-      date = Date.today
-      date.strftime('%Y-%m%b-%d.md')
-    end
-
     def config
       @config ||= Configuration.new
     end

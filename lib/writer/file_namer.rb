@@ -1,10 +1,15 @@
+require "date"
+
 module Writer
   class FileNamer
     class << self
       def name_for(filename)
-        name = fix_standard(filename)
+        filename ||= default_filename
+
+        name   = fix_standard(filename)
         name ||= fix_no_ext(filename)
         name ||= prevent_overwrite(filename)
+
         name
       end
 
@@ -39,20 +44,22 @@ module Writer
         name
       end
 
+      def default_filename
+        date = Date.today
+        date.strftime('%Y-%m%b-%d.md')
+      end
+
+      def separator_for(name, base = nil)
+        return "." if base || name.include?('.')
+        "--"
+      end
+
       private
       def append_count(name, separator, count)
         basename = name.gsub(/(--|\.)\d*$/, '')
         zero_pad = count < 10 ? 0 : nil
 
         [basename, separator, zero_pad, count].join
-      end
-
-      def separator_for(name, base = nil)
-        if base || name.include?('.')
-          "."
-        else
-          "--"
-        end
       end
     end
   end
