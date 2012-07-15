@@ -1,51 +1,27 @@
 require "date"
 require "writer/configuration"
 require "writer/version"
+require "writer/overwrite_prevention"
 
 module Writer
   class << self
     def write!(name = nil, content = nil)
       name = default_filename if name.nil?
-      protect_from_overwrite(name)
-      create_file(content)
+      filename = OverwritePrevention.adjust_name(name)
+
+      create_file(filename, content)
       File.open(filename, 'r')
     end
 
     def configure
-      @config = Configuration.new
-      yield(@config)
+      yield(config)
     end
 
     private
-    def protect_from_overwrite(name)
-      count = 1
-      while File.exists?(name)
-        name = append_count(name, count += 1)
-      end
-      @filename = name
-    end
-
-    def create_file(content = nil)
+    def create_file(filename, content = nil)
       File.open(filename, 'w') do |f|
         f.puts content || template
       end
-    end
-
-    def append_count(name, count)
-      if (split = name.split('.')).length > 1
-        ext = split.last
-        split.delete(ext)
-        name = split.join
-      end
-
-      name = name.gsub(/--\d$/,'')
-
-      [name + "--#{count}", '.', ext].join
-    end
-
-    def default_filename
-      date = Date.today
-      date.strftime('%Y-%m%b-%d.md')
     end
 
     def template
@@ -54,12 +30,13 @@ module Writer
       end
     end
 
-    def config
-      @config ||= Configuration.new
+    def default_filename
+      date = Date.today
+      date.strftime('%Y-%m%b-%d.md')
     end
 
-    def filename
-      @filename
+    def config
+      @config ||= Configuration.new
     end
   end
 end
