@@ -15,24 +15,11 @@ describe Writer do
     file.read.should == "\n"
   end
 
-  it "creates the file with your custom name" do
+  it "uses your custom name" do
     filename = "My custom filename.txt"
 
     Writer.write!(filename)
     File.delete(filename)
-  end
-
-  it "uses a template, if it exists" do
-    body = "hello\nworld"
-    Writer.write!('.template', body)
-
-    Writer.configure do |c|
-      c.template_path = '.template'
-    end
-
-    file = Writer.write!
-    file.read.should == body + "\n"
-    File.delete('.template')
   end
 end
 

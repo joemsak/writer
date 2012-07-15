@@ -3,7 +3,7 @@ require "writer/file_namer"
 module Writer
   class FileCreator
     class << self
-      def create!(filename, content)
+      def create!(filename, content = nil)
         create_file(filename, content)
         File.open(filename, 'r')
       end
