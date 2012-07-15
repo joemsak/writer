@@ -35,6 +35,18 @@ $ wr hello world
 #=> Creates a file named `hello` with the content `world`
 ```
 
+## Now supports the Ruby interactive shell!
+
+```
+$ irb
+> require 'writer'
+#=> true
+> wr 'hello.txt', 'world'
+#=>""
+> File.open('hello.txt').read
+#=> "world\n"
+```
+
 ## Use a template
 
 The Writer will copy a template file's contents into your new file
