@@ -1,10 +1,10 @@
-require "writer/overwrite_prevention"
+require "writer/file_namer"
 
 module Writer
   class FileCreator
     class << self
       def create!(filename, content)
-        name = OverwritePrevention.adjust(filename)
+        name = FileNamer.name_for(filename)
         content = content
 
         create_file(name, content)

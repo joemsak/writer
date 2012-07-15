@@ -1,11 +1,10 @@
 module Writer
-  class OverwritePrevention
+  class FileNamer
     class << self
-      def adjust(filename)
+      def name_for(filename)
         name = fix_standard(filename)
-        name ||= fix_no_extension(filename)
-        name ||= fix_no_base(filename)
-        name ||= fix_no_dots(filename)
+        name ||= fix_no_ext(filename)
+        name ||= fix_name(filename)
         name
       end
 
@@ -19,7 +18,7 @@ module Writer
         end
       end
 
-      def fix_no_extension(name)
+      def fix_no_ext(name)
         if /\.$/ =~ name
           basename = name.gsub('.', '')
 
@@ -27,19 +26,6 @@ module Writer
         end
       end
 
-      def fix_no_base(name)
-        if /^\./ =~ name
-          fix_name(name)
-        end
-      end
-
-      def fix_no_dots(name)
-        unless name.include?('.')
-          fix_name(name)
-        end
-      end
-
-      private
       def fix_name(name, base = nil, ext = nil)
         to_fix = base || name
         count = 1
@@ -52,6 +38,7 @@ module Writer
         name
       end
 
+      private
       def append_count(name, count)
         name = name.gsub(/--\d*$/, '')
         [name, "--", count].join
