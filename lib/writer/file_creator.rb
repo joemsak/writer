@@ -5,7 +5,6 @@ module Writer
     class << self
       def create!(filename, content)
         name = FileNamer.name_for(filename)
-        content = content
 
         create_file(name, content)
         File.open(name, 'r')
