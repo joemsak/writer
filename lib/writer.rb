@@ -32,3 +32,7 @@ module Writer
     end
   end
 end
+
+def wr(*args)
+  `wr #{args.join(' ')}`
+end
