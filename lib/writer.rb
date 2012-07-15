@@ -15,9 +15,11 @@ module Writer
 
     # attempt delegation to config
     def method_missing(name, *args)
-      return config.send(name, *args)
-      rescue
-        super
+      config.send(name, *args)
+    end
+
+    def config=(other)
+      @config = other
     end
 
     private
