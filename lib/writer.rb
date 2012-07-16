@@ -22,7 +22,6 @@ module Writer
       @config = other
     end
 
-    private
     def config
       @config ||= Configuration.new
     end
