@@ -5,7 +5,7 @@ module Writer
     attr_accessor :template_path, :namer, :creator
 
     def initialize
-      @namer ||= 'Writer::FileNamer'
+      @namer   ||= 'Writer::FileNamer'
       @creator ||= 'Writer::FileCreator'
     end
 

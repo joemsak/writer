@@ -6,10 +6,10 @@ filename = ARGV[0]
 content = ARGV[1]
 
 if (load_config = File.open('config/writer.yml') rescue nil)
-  config = YAML.load(load_config)
+  writer_config = YAML.load(load_config)
 
-  Writer.configure do |c|
-    c.template_path = config['template_path']
+  Writer.configure do |config|
+    config.template_path = writer_config['template_path']
   end
 end
 
