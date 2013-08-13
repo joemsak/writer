@@ -12,12 +12,24 @@ module Writer
       Writer.template_path.should be_nil
     end
 
+    it "defaults date_format to nil" do
+      Writer.date_format.should be_nil
+    end
+
     it "takes a template_path" do
       Writer.configure do |c|
         c.template_path = 'hi'
       end
 
       Writer.template_path.should == 'hi'
+    end
+
+    it "takes a date_format" do
+      Writer.configure do |c|
+        c.date_format = 'hello there'
+      end
+
+      Writer.date_format.should == 'hello there'
     end
 
     it "defaults creator to FileCreator" do
