@@ -24,7 +24,7 @@ describe Writer do
 end
 
 def delete_files
-  Dir.glob("20*.md") do |filename|
+  Dir.glob("[^README]*.md") do |filename|
     File.delete(filename)
   end
 end
