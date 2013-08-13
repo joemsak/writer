@@ -46,12 +46,16 @@ module Writer
 
       def default_filename
         date = Date.today
-        date.strftime('%Y-%m%b-%d.md')
+        date.strftime("#{date_format}.md")
       end
 
       def separator_for(name, base = nil)
         return "." if base || name.include?('.')
         "--"
+      end
+
+      def config
+        @configuration ||= Writer.config
       end
 
       private
@@ -60,6 +64,10 @@ module Writer
         zero_pad = count < 10 ? 0 : nil
 
         [basename, separator, zero_pad, count].join
+      end
+
+      def date_format
+        config.date_format || '%Y-%m%b-%d'
       end
     end
   end

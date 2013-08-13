@@ -1,6 +1,5 @@
 require "writer/configuration"
 require "writer/version"
-require "writer/file_creator"
 
 module Writer
   class << self
@@ -27,6 +26,8 @@ module Writer
     end
   end
 end
+
+require "writer/file_creator"
 
 def wr(*args)
   `wr #{args.join(' ')}`

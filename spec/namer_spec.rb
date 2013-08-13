@@ -1,4 +1,4 @@
-require "writer/file_namer"
+require "writer"
 
 module Writer
   describe FileNamer do
@@ -18,6 +18,19 @@ module Writer
       end
       name = FileNamer.name_for(nil)
       name.should == "2012-01Jan-03.md"
+    end
+
+    it "uses a configured date format" do
+      Writer.configure do |config|
+        config.date_format = '%e-%m%b-%Y'
+      end
+
+      Date.stub(:today) do
+        Date.new(2013, 8, 12)
+      end
+
+      name = FileNamer.name_for(nil)
+      name.should == "12-08Aug-2013.md"
     end
 
     it "prevents overwriting" do

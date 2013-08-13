@@ -2,7 +2,7 @@ require "active_support/all"
 
 module Writer
   class Configuration
-    attr_accessor :template_path, :namer, :creator
+    attr_accessor :template_path, :date_format, :namer, :creator
 
     def initialize
       @namer   ||= 'Writer::FileNamer'
