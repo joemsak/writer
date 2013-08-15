@@ -2,7 +2,8 @@ require "active_support/all"
 
 module Writer
   class Configuration
-    attr_accessor :template_path, :date_format, :namer, :creator, :attributes
+    attr_accessor :template_path, :date_format, :attributes,
+      :log_level, :logger, :namer, :creator
 
     def initialize(attrs = {})
       attrs = attrs.merge(config)

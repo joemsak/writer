@@ -9,15 +9,15 @@ module Writer
     def write!(name = nil, content = nil)
       name = namer.name_for(name)
       creator.create!(name, content)
+      logger.info "Creating #{name}"
     end
 
     def configure
       yield(config)
     end
 
-    # attempt delegation to config
-    def method_missing(name, *args)
-      config.send(name, *args)
+    def logger
+      @logger ||= config.logger.new
     end
 
     def configure
