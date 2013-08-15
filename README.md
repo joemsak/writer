@@ -61,6 +61,20 @@ in the project root
 template_path: .template
 ```
 
+## Configuration
+
+```yml
+# in config/writer.yml
+
+# default config:
+namer:         'Writer::FileNamer'
+creator:       'Writer::FileCreator'
+logger:        'Writer::Logger'
+date_format:   '%Y-%m%b-%d'
+log_level:     2 # 0 - err, 1 - warn, 2 - info, 3 - debug
+template_path: ''
+```
+
 ## Contributing
 
 Please provide a spec covering your feature or bug fix, thank you!
