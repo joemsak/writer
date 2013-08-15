@@ -17,12 +17,23 @@ module Writer
       config.send(name, *args)
     end
 
-    def config=(other)
-      @config = other
+    def configure
+      yield(config)
     end
 
     def config
       @config ||= Configuration.new
+    end
+
+    def set_default_config!
+      @config = Configuration.new
+    end
+
+    def method_missing(method_name, *args)
+      attrs = config.attributes.keys
+      return super unless attrs.include?(method_name)
+
+      config.send(method_name, *args)
     end
   end
 end

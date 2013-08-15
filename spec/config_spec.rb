@@ -1,19 +1,20 @@
 require "writer"
-class MyCreator; end
-class MyNamer; end
+module Creators; class MyCreator; end; end
+module Namers; class MyNamer; end; end;
 
 module Writer
   describe Configuration do
     after :all do
-      Writer.config = Configuration.new
+      Writer.set_default_config!
     end
 
-    it "defaults template_path to nil" do
-      Writer.template_path.should be_nil
+    it "defaults template_path blank" do
+      Writer.template_path.should be_blank
     end
 
-    it "defaults date_format to nil" do
-      Writer.date_format.should be_nil
+    it "defaults date_format to american" do
+      # and in a format that helps with file sorting
+      Writer.date_format.should == '%Y-%m%b-%d'
     end
 
     it "takes a template_path" do
@@ -38,10 +39,10 @@ module Writer
 
     it "takes a creator" do
       Writer.configure do |c|
-        c.creator = :my_creator
+        c.creator = 'Creators::MyCreator'
       end
 
-      Writer.creator.should == MyCreator
+      Writer.creator.should == Creators::MyCreator
     end
 
     it "defaults namer to FileNamer" do
@@ -50,10 +51,10 @@ module Writer
 
     it "takes a namer" do
       Writer.configure do |c|
-        c.namer = :my_namer
+        c.namer = 'Namers::MyNamer'
       end
 
-      Writer.namer.should == MyNamer
+      Writer.namer.should == Namers::MyNamer
     end
   end
 end

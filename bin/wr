@@ -5,12 +5,4 @@ require 'writer'
 filename = ARGV[0]
 content = ARGV[1]
 
-if (load_config = File.open('config/writer.yml') rescue nil)
-  writer_config = YAML.load(load_config)
-
-  Writer.configure do |config|
-    config.template_path = writer_config['template_path']
-  end
-end
-
 Writer.write!(filename, content)
