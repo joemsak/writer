@@ -2,7 +2,8 @@ require "writer/file_creator"
 
 module Writer
   describe FileCreator do
-    let(:file) { stub(:file) }
+    let(:file)    { stub(:file) }
+    let(:creator) { FileCreator.new }
 
     before :each do
       File.stub(:open)
@@ -17,23 +18,23 @@ module Writer
     context "with content" do
       it "writes the content" do
         file.should_receive(:puts).with('hi')
-        FileCreator.create!('filename', 'hi')
+        creator.create!('filename', 'hi')
       end
     end
 
     context "without content" do
       it "leaves a blank line" do
-        FileCreator.stub(:template) { nil }
+        creator.stub(:template) { nil }
         file.should_receive(:puts).with(nil)
-        FileCreator.create!('filename')
+        creator.create!('filename')
       end
 
       it "uses a template, if it exists" do
         template = stub(:read => "hello\nworld")
-        FileCreator.stub(:template) { template.read }
+        creator.stub(:template) { template.read }
 
         file.should_receive(:puts).with("hello\nworld")
-        FileCreator.create!('filename')
+        creator.create!('filename')
       end
     end
   end

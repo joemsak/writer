@@ -7,13 +7,19 @@ module Writer
 
   class << self
     def write!(name = nil, content = nil)
-      name = namer.name_for(name)
-      creator.create!(name, content)
+      name = file_namer.name_for(name)
+
       logger.info "Creating #{name}"
+
+      file_creator.create!(name, content)
     end
 
-    def configure
-      yield(config)
+    def file_namer
+      @file_namer ||= namer.new
+    end
+
+    def file_creator
+      @file_creator ||= creator.new
     end
 
     def logger
