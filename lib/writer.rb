@@ -1,7 +1,10 @@
-require "writer/configuration"
-require "writer/version"
-
 module Writer
+  autoload :Version,       "writer/version"
+  autoload :FileNamer,     "writer/file_namer"
+  autoload :FileCreator,   "writer/file_creator"
+  autoload :Logger,        "writer/logger"
+  autoload :Configuration, "writer/configuration"
+
   class << self
     def write!(name = nil, content = nil)
       name = namer.name_for(name)
@@ -37,8 +40,6 @@ module Writer
     end
   end
 end
-
-require "writer/file_creator"
 
 def wr(*args)
   `wr #{args.join(' ')}`

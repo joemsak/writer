@@ -1,5 +1,3 @@
-require "writer/file_namer"
-
 module Writer
   class FileCreator
     class << self
