@@ -13,6 +13,7 @@ Gem::Specification.new do |gem|
   gem.test_files          = gem.files.grep(%r{^(test|spec|features)/})
   gem.name                = "writer"
   gem.require_paths       = ["lib"]
+  gem.licenses            = 'MIT'
   gem.version             = Writer::VERSION
 
   gem.add_dependency 'activesupport'
