@@ -1,6 +1,8 @@
 # Writer
 
-This gem adds a command line utility that writes a new file for you.
+This gem adds a command line utility that writes a new file named after today's for you. 
+
+It's useful for keeping a private diary or writing a daily log for your job.
 
 ## Doesn't touch do that?
 
