@@ -2,39 +2,39 @@ require "writer/file_creator"
 
 module Writer
   describe FileCreator do
-    let(:file)    { stub(:file) }
-    let(:creator) { FileCreator.new }
+    let(:file)    { double(:file) }
+
+    subject(:creator) { described_class.new }
 
     before :each do
-      File.stub(:open)
-          .with('filename', 'w')
-          .and_yield(file)
-
-      File.stub(:open)
-          .with('filename', 'r')
-          .and_return(true)
+      allow(File).to receive(:open).with('filename', 'w').and_yield(file)
+      allow(File).to receive(:open).with('filename', 'r')
     end
 
     context "with content" do
       it "writes the content" do
-        file.should_receive(:puts).with('hi')
+        allow(file).to receive(:puts)
+
         creator.create!('filename', 'hi')
+        expect(file).to have_received(:puts).with('hi')
       end
     end
 
     context "without content" do
       it "leaves a blank line" do
-        creator.stub(:template) { nil }
-        file.should_receive(:puts).with(nil)
+        allow(creator).to receive(:template)
+        allow(file).to receive(:puts)
+
         creator.create!('filename')
+        expect(file).to have_received(:puts).with(nil)
       end
 
       it "uses a template, if it exists" do
-        template = stub(:read => "hello\nworld")
-        creator.stub(:template) { template.read }
+        allow(creator).to receive(:template) { "hello\nworld" }
+        allow(file).to receive(:puts)
 
-        file.should_receive(:puts).with("hello\nworld")
         creator.create!('filename')
+        expect(file).to have_received(:puts).with("hello\nworld")
       end
     end
   end
