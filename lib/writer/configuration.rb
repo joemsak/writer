@@ -1,3 +1,4 @@
+require 'yaml'
 require "active_support/all"
 
 module Writer
