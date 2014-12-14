@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.licenses            = 'MIT'
   gem.version             = Writer::VERSION
 
-  gem.add_dependency 'activesupport'
+  gem.add_dependency 'activesupport', '~> 4.1'
 
-  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rspec', '~> 3.1'
 end
