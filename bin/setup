@@ -1,0 +1,4 @@
+#!/bin/bash
+
+bundle -j10
+rake

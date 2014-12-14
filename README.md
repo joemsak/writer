@@ -77,6 +77,14 @@ log_level:     2 # 0 - err, 1 - warn, 2 - info, 3 - debug
 template_path: ''
 ```
 
+## Development
+
+```
+git clone git@github.com:you/writer.git
+cd writer
+./bin/setup
+```
+
 ## Contributing
 
 Please provide a spec covering your feature or bug fix, thank you!
