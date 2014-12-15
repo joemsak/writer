@@ -18,6 +18,16 @@ module Writer
         creator.create!('filename', 'hi')
         expect(file).to have_received(:puts).with('hi')
       end
+
+      context 'with variables' do
+        it 'fills in the variables in the template' do
+          allow(creator).to receive(:template) { "hello\n%{name}, you are %{trait}" }
+          allow(file).to receive(:puts)
+
+          creator.create!('filename', 'NAME=joe TRAIT=cool')
+          expect(file).to have_received(:puts).with("hello\njoe, you are cool")
+        end
+      end
     end
 
     context "without content" do
