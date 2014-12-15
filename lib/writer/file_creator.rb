@@ -32,6 +32,8 @@ module Writer
       content.split(' ').each do |k_v|
         key = k_v.split('=')[0].downcase
         value = k_v.split('=')[1]
+        puts key
+        puts value
         modified_template.gsub!(/%{#{key}}/, value)
       end
 
